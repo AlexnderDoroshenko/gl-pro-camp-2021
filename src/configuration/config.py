@@ -83,6 +83,19 @@ class ConfigLoader:
         else:
             raise ValueError("Unsupported file format, supported formats [yaml, json]")
 
+    def get_input_from_data(self):
+        if isinstance(self.input_data, dict):
+            return self.input_data
+        if isinstance(self.input_data, tuple):
+            if sum((x for x in self.input_data if len(x) != 2)) == 0:
+                return {x[0]: x[1] for x in self.input_data if len(x) == 2}
+            else:
+                raise ValueError("Wrong tuple format, each index should have two nested index")
+        if isinstance(self.input_data, list):
+            if sum((x for x in self.input_data if len(x) != 2)) == 0:
+                return {x[0]: x[1] for x in self.input_data if len(x) == 2}
+            else:
+                raise ValueError("Wrong list format, each index should have two nested index")
 
     def get_yaml_data(self):
         """Method gets data from yaml file
