@@ -13,3 +13,12 @@ class AbstractConfig(ABC):
     def set_config(self, key: str, value):
         raise NotImplemented
 
+
+class Config(AbstractConfig):
+    """Main config class"""
+    def __init__(self, input_data):
+        self.input_data = input_data
+
+    def set_config(self, key: str, value):
+        self.__setattr__(name=key, value=value)
+
