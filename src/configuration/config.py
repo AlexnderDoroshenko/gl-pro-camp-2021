@@ -75,6 +75,15 @@ class ConfigLoader:
             else:
                 raise ValueError("Unsupported data type, class supports types [dict, tuple, list]")
 
+    def get_input_from_file(self):
+        if self.is_file_yaml():
+            return self.get_yaml_data()
+        elif self.is_file_json():
+            return self.get_json_data()
+        else:
+            raise ValueError("Unsupported file format, supported formats [yaml, json]")
+
+
     def get_yaml_data(self):
         """Method gets data from yaml file
         and returns a dict"""
