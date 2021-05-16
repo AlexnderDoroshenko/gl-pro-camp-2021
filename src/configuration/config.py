@@ -53,29 +53,14 @@ class ConfigLoader:
         If data is correct tuple or list, returns data converted in dictionary.
         """
         if self.is_file():
-            if self.is_file_yaml():
-                return self.get_yaml_data()
-            elif self.is_file_json():
-                return self.get_json_data()
-            else:
-                raise ValueError("Unsupported file format, supported formats [yaml, json]")
+            self.get_input_from_file()
         elif isinstance(self.input_data, (dict, tuple, list)):
-            if isinstance(self.input_data, dict):
-                return self.input_data
-            if isinstance(self.input_data, tuple):
-                if sum((x for x in self.input_data if len(x) != 2)) == 0:
-                    return {x[0]: x[1] for x in self.input_data if len(x) == 2}
-                else:
-                    raise ValueError("Wrong tuple format, each index should have two nested index")
-            if isinstance(self.input_data, list):
-                if sum((x for x in self.input_data if len(x) != 2)) == 0:
-                    return {x[0]: x[1] for x in self.input_data if len(x) == 2}
-                else:
-                    raise ValueError("Wrong list format, each index should have two nested index")
-            else:
-                raise ValueError("Unsupported data type, class supports types [dict, tuple, list]")
+            self.get_input_from_data()
 
     def get_input_from_file(self):
+        """
+        Takes a file with the yaml or json format and returns a dictionary data.
+        """
         if self.is_file_yaml():
             return self.get_yaml_data()
         elif self.is_file_json():
@@ -84,6 +69,9 @@ class ConfigLoader:
             raise ValueError("Unsupported file format, supported formats [yaml, json]")
 
     def get_input_from_data(self):
+        """
+        Takes a correct data and returns a dictionary.
+        """
         if isinstance(self.input_data, dict):
             return self.input_data
         if isinstance(self.input_data, tuple):
