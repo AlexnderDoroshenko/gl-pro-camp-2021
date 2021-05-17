@@ -12,18 +12,26 @@ class Config:
     """Main config class"""
 
     def set_config_class_variable(self, key: str, value):
-        """Method for Config class variable setting"""
+        """Method for Config class variable setting
+
+        :param key: sets an attribute name for Config class.
+        :param value: sets a value for attribute.
+        """
+
         self.__setattr__(key, value)
+        return self
 
     def set_config_class_variable_from_env(self, env_key:str):
         """Method for Config class variable setting from os environment"""
         self.set_config_class_variable(env_key, os.environ[env_key])
+        return self
 
     def set_config_class_variables_from_data(self, input_data):
         """Method for Config class variables setting from data input"""
         dict_from_data = ConfigLoader(input_data=input_data).get_input_data()
         for key, value in dict_from_data:
             self.set_config_class_variable(key=key, value=value)
+        return self
 
 
 class ConfigLoader:

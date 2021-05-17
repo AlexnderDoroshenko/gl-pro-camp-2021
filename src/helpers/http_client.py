@@ -55,7 +55,7 @@ class Client:
         return self.request.delete(*args, **kwargs)
 
     def universal_request(self, *args, **kwargs):
-        """
+        """Sends any request.
         :param method: HTTP method to use.
         :param url: URL to send.
         :param headers: dictionary of headers to send.
