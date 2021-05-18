@@ -23,7 +23,7 @@ class Config:
 
     def set_config_class_variable_from_env(self, env_key:str):
         """Method for Config class variable setting from os environment"""
-        self.set_config_class_variable(env_key, os.environ[env_key])
+        self.set_config_class_variable(env_key, os.environ.get(env_key))
         return self
 
     def set_config_class_variables_from_data(self, input_data):
