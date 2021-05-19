@@ -84,15 +84,15 @@ class ConfigLoader:
             if sum((value for key, value in self.input_data.items() if not isinstance(value, dict)))== 0:
                 return self.input_data
         if isinstance(self.input_data, tuple):
-            if sum((x for x in self.input_data if len(x) != 3)) == 0:
+            if sum((x for x in self.input_data if len(x) != 2)) == 0:
                 return {x[0]: x[1] for x in self.input_data}
             else:
-                raise ValueError("Wrong tuple format, each index should have three nested index")
+                raise ValueError("Wrong tuple format, each index should have two nested index")
         if isinstance(self.input_data, list):
-            if sum((x for x in self.input_data if len(x) != 3)) == 0:
+            if sum((x for x in self.input_data if len(x) != 2)) == 0:
                 return {x[0]: x[1] for x in self.input_data}
             else:
-                raise ValueError("Wrong list format, each index should have three nested index")
+                raise ValueError("Wrong list format, each index should have two nested index")
 
     def get_yaml_data(self):
         """Method gets data from yaml file
@@ -116,27 +116,56 @@ class ConfigIniParser:
         self.config.read(self.file_path)
 
     def create_section(self, section_name: str):
-        """Method creates a section in config"""
+        r"""Creates a section in config.
+
+         :param section: name of the configuration section.
+         :param key: name of the configuration section option.
+
+         :return: : config.ConfigParser
+         """
+
         self.config[section_name] = {}
         self.save_config_file()
 
+        return self
+
     def create_section_values(self, section_name: str, values_dict: dict):
-        """Method creates a section values in config"""
+        r"""Creates a section values in config.
+
+         :param section_name: name of the configuration section.
+         :param values_dict: key values dictionary.
+
+         :return: : config.ConfigParser
+         """
+
         if section_name not in self.config.sections():
             self.config.add_section(section_name)
         for key, value in values_dict.items():
             self.config.set(section_name, key, value)
         self.save_config_file()
 
+        return self
+
     def save_config_file(self):
-        """Method saves config"""
+        r"""Saves the config file.
+
+         :return: : config.ConfigParser
+         """
+
         with open(self.file_path, 'w') as configfile:
             self.config.write(configfile)
 
+        return self
+
     def get_config_value(self, section: str, key: str):
-        """
-        Method get a value from config by section option(key)
-        """
+        r"""Gets a value from config by section option(key).
+
+         :param section: name of the configuration section.
+         :param key: name of the configuration section option.
+
+         :return: : section option value
+         """
+
         return self.config.get(section=section, option=key)
 
 
