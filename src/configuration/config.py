@@ -5,7 +5,7 @@ import configparser
 import yaml
 import json
 import os
-import settings
+import local_settings
 from src.helpers.validator import Validator
 
 
@@ -16,7 +16,7 @@ class Config:
         self.file_loader = ConfigFromFile
         self.data_loader = ConfigFromData
         self.hierarchy_loader = HierarchyConfigLoader
-        conf_path = f"{settings.ROOT_DIR}/{os.environ['TARGET']}.json"
+        conf_path = f"{local_settings.ROOT_DIR}/{os.environ['TARGET']}.json"
 
     def set_config_variable(self, key: str, value):
         """Method for Config class variable setting
@@ -152,7 +152,7 @@ class ConfigIniParser:
     def __init__(self, file_name: str):
         self.config = configparser.ConfigParser()
         self.config_file_name = file_name
-        self.file_path = f"{settings.ROOT_DIR}/{self.config_file_name}"
+        self.file_path = f"{local_settings.ROOT_DIR}/{self.config_file_name}"
         self.config.read(self.file_path)
 
     def create_section(self, section_name: str):
