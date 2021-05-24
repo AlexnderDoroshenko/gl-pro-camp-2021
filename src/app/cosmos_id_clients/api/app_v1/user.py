@@ -4,11 +4,13 @@ from src.helpers.http_client import SessionHttp, ClientHttp
 
 
 class ApiUser:
-    def __init__(self):
+    """Class for User manipulations: register, login etc.."""
+    def __init__(self, session):
         self.register_path = r"/api/v1/register"
+        self.signup_path = r"/api/v1/signup"
         self.login_path = r"/api/v1/login"
-        self.url = Config.APP_URI
-        self.request = ClientHttp()
+        self.base_url = Config.BASE_URL
+        self.request = session
 
 
     def login(self):

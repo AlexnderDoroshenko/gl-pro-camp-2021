@@ -15,6 +15,7 @@ class Config:
         self.env_loader = ConfigFromEnvironment
         self.file_loader = ConfigFromFile
         self.data_loader = ConfigFromData
+        self.ini_loader = ConfigIniParser
         self.hierarchy_loader = HierarchyConfigLoader
         conf_path = f"{local_settings.ROOT_DIR}/{os.environ['TARGET']}.json"
 
@@ -28,6 +29,14 @@ class Config:
             setattr(self, key, value)
         return self
 
+    def get_config_variable(self, key: str):
+        """Method for Config class variable getting
+
+        :param key: Name for Config class attribute.
+        """
+        if hasattr(self, key):
+            getattr(self, key)
+        return self
 
 
 class ConfigFromEnvironment():
@@ -35,11 +44,19 @@ class ConfigFromEnvironment():
     def __init__(self):
         self.config = {}
 
-    def get_config(self, var_name: str):
+    def set_config_value_from_env(self, var_name: str):
         """Getter method
         :param var_name: Name of the environment variable.
         """
-        self.config = os.environ.get(var_name)
+        self.config[var_name] = os.environ.get(var_name)
+        return self
+
+    def set_env_config_value(self, var_name: str, value):
+        """Setter method
+        :param var_name: Name of the environment variable.
+        """
+        os.environ[var_name] = value
+        return self
 
     def set_config(self):
         """Setter method.
@@ -48,6 +65,7 @@ class ConfigFromEnvironment():
         for key, value in self.config.items():
             if not hasattr(Config, key):
                 setattr(Config, key, value)
+        return self
 
 
 class ConfigFromFile():
@@ -218,6 +236,6 @@ class HierarchyConfigLoader:
         for config_item in self.config_set:
             if config_item:
                 for key, value in config_item.items():
-                    if not key in self.configuration.keys():
+                    if key not in self.configuration.keys():
                         self.configuration[key] = value
         return self
