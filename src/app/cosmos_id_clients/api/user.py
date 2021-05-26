@@ -20,7 +20,7 @@ class ApiUser:
     def signup(self):
         """Method for User registration"""
 
-        url = f"{self.url}{self.signup_path}"
+        url = f"{self.base_url}{self.signup_path}"
 
         payload = "expiry=86400&login_from=login+page&password=123456&" \
                   "email=doroshenkoaldm%40gmail.com&organization=test1&job_title=test1&name=test1"
@@ -45,19 +45,20 @@ class ApiUser:
                       ' messagesUtk=36b4058eace349bba5ad353b57127151'
         }
 
-        response = session.post(url, headers=headers, data=payload)
+        response = self.request.post(url, headers=headers, data=payload)
 
         print(response.text)
 
     def login(self):
         self.request.get_request(
-            url=f"{self.url}{self.login_path}"
+            url=f"{self.base_url}{self.login_path}"
 
         )
 
     def get_profile(self, profile_id: str):
 
-        url = f"{self.base_url}{self.profile}?_={profile_id}"
+        url = f"{self.base_url}{self.profile_path}?"
+        payload = f"_={profile_id}"
         headers = {
             'authority': 'app.cosmosid.com',
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"',
@@ -75,20 +76,6 @@ class ApiUser:
             'cookie': 'messagesUtk=a608d64183b8445db0bf9d68175d2071'
         }
 
-        response = self.session.get(url, headers=headers, data=payload)
+        response = self.request.get(url, headers=headers, data=payload)
 
         print(response.text)
-
-
-
-user = ApiUser()
-
-user.signup()
-
-    # {"contactFields": {"email": "doroshenkoaldm@gmail.com", "firstName": "Alexander"}, "formSelectorClasses": ".jss161",
-    #  "formSelectorId": "",
-    #  "formValues": {"Job Title": "QA Automation Engineer", "Organization": "Nayax", "I agree with the": "Checked"},
-    #  "labelToNameMap": {"Job Title": "job_title", "Organization": "organization", "I agree with the": ""},
-    #  "pageTitle": "CosmosID", "pageUrl": "https://app.cosmosid.com/register", "portalId": 4249792, "type": "SCRAPED",
-    #  "utk": "cf252e02d2f9918a411b1b1c0ab54c34", "uuid": "97478be1-d3c5-4ceb-b4c7-9a47ab0f0ac9",
-    #  "version": "collected-forms-embed-js-static-1.239"}
