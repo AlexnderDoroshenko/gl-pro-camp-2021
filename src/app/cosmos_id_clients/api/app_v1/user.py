@@ -1,22 +1,28 @@
 """Module for registration endpoint"""
 from src.configuration.config import Config
-from src.helpers.http_client import SessionHttp, ClientHttp
+from src.helpers.http_client import ClientHttp
 
 
 class ApiUser:
     """Class for User manipulations: register, login etc.."""
-    def __init__(self, session):
+    def __init__(self):
         self.register_path = r"/api/v1/register"
         self.signup_path = r"/api/v1/signup"
         self.login_path = r"/api/v1/login"
         self.base_url = Config.BASE_URL
-        self.request = session
-
+        self.request = ClientHttp
+        self.token = Config.TOKEN
 
     def login(self):
-        self.request.get_request(
-            url=f"{self.url}{self.login_path}"
-        )
+        self.request().get_request(
+            url=f"{self.base_url}{self.login_path}",
+            headers={"Accept": "application/json, text/javascript, */*; q=0.01",
+                     "Authorization": self.token,
+                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            params={"expiry": 86400,"login_from": "login+page"}
+            )
+        return self
+
 
 
 

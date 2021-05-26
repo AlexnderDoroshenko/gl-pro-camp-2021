@@ -6,9 +6,6 @@ class SessionHttp(requests.Session):
     def __init__(self):
         super().__init__()
 
-    def autorization(self):
-        pass
-
     def get_request(self, *args, **kwargs):
         r"""Sends a GET request.
         :param url: URL for the new :class:`Request` object.
@@ -61,7 +58,7 @@ class SessionHttp(requests.Session):
 class ClientHttp:
     """Class for implementing http requests logic"""
 
-    def __init__(self):
+    def __init__(self, request=requests.request):
         self.request = requests
         self.authorization = None
 
