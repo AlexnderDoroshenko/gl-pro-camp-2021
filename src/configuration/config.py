@@ -12,12 +12,13 @@ from src.helpers.validator import Validator
 class Config:
     """Main config class"""
     def __init__(self):
+        conf_path = f"{local_settings.ROOT_DIR}/config_storage/{os.environ['TARGET']}.json"
         self.env_loader = ConfigFromEnvironment
-        self.file_loader = ConfigFromFile
+        self.file_loader = ConfigFromFile().get_config(conf_path)
         self.data_loader = ConfigFromData
         self.ini_loader = ConfigIniParser
         self.hierarchy_loader = HierarchyConfigLoader
-        conf_path = f"{local_settings.ROOT_DIR}/{os.environ['TARGET']}.json"
+
 
     def set_config_variable(self, key: str, value):
         """Method for Config class variable setting
@@ -83,6 +84,7 @@ class ConfigFromFile():
         :param file_path: Name of the file_path with data.
         """
         self.config = self.get_input_from_file(file_path)
+        return self
 
     def get_input_from_file(self, file_path: str):
         """
@@ -119,6 +121,7 @@ class ConfigFromFile():
         for key, value in self.config.items():
             if not hasattr(Config, key):
                 setattr(Config, key, value)
+        return self
 
 
 class ConfigFromData:
@@ -137,6 +140,7 @@ class ConfigFromData:
         :param input_data: Data for config.
         """
         self.config = self.get_input_from_data()
+        return self
 
     def get_input_from_data(self):
         """
@@ -163,6 +167,7 @@ class ConfigFromData:
         for key, value in self.config.items():
             if not hasattr(Config, key):
                 setattr(Config, key, value)
+        return self
 
 
 class ConfigIniParser:
