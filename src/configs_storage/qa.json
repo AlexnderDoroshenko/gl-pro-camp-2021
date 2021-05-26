@@ -1,3 +1,4 @@
 {
-  "APP_URI": "https://app.cosmosid.com"
+  "APP_URI": "https://app.cosmosid.com",
+  "VERSION_API": 1
 }
