@@ -1,0 +1,11 @@
+FROM 3.9.5-slim-buster
+
+LABEL Has been created by DoroshenkoA.D. for UPItec school
+
+RUN mkdir -p /gl-pro-camp/
+WORKDIR .
+
+COPY . /gl-pro-camp/
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+CMD ["python3", "-m", "pytest" "--alluredir=/gl-pro-camp/allure_reports/" "/gl-pro-camp/tests/"]
